@@ -1,20 +1,142 @@
 <!DOCTYPE html>
-<html lang="pt-br">
-
+<html lang="pt-BR">
 <head>
-    <title>Teste github </title>
-    <h1>AVAI FC </h1>
-    <p> sc </p>
-<meta charset "utf-8">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Avaí FC - Sob a Chuva</title>
 
-<link rel="stylesheet" href="style.css">
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body{
+    background: linear-gradient(to bottom, #0d1b2a, #1b263b);
+    overflow:hidden;
+    color:white;
+}
+
+/* Canvas da chuva */
+canvas{
+    position:fixed;
+    top:0;
+    left:0;
+    z-index:0;
+}
+
+/* Conteúdo principal */
+.container{
+    position:relative;
+    z-index:2;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    flex-direction:column;
+    text-align:center;
+    background:rgba(0,0,0,0.3);
+    backdrop-filter: blur(6px);
+}
+
+h1{
+    font-size:4rem;
+    letter-spacing:3px;
+    color:#00b4ff;
+    text-shadow:0 0 15px #00b4ff;
+}
+
+p{
+    margin-top:20px;
+    font-size:1.3rem;
+    opacity:0.9;
+}
+
+button{
+    margin-top:30px;
+    padding:15px 40px;
+    border:none;
+    border-radius:30px;
+    font-size:1rem;
+    cursor:pointer;
+    background:#00b4ff;
+    color:white;
+    transition:0.3s;
+}
+
+button:hover{
+    background:white;
+    color:#0d1b2a;
+    transform:scale(1.05);
+}
+</style>
 </head>
-</div>
-<body>
-<p style color: blue;</p>
-    <img src="https://a.espncdn.com/i/teamlogos/soccer/500/9966.png" alt="">
-    <a href="https://instagram.com/avaifc">Avaifc<a/br>
-</body>
-<link rel="stylesheet" href="style.css">
 
+<body>
+
+<canvas id="rain"></canvas>
+
+<div class="container">
+    <h1>AVAÍ FC</h1>
+    <p>Avai, jamais estarás  só 💙</p>
+    <button onclick="alert('Vamos Avaí! 💙⚽')">Saudações Azurras</button>
+</div>
+
+<script>
+const canvas = document.getElementById("rain");
+const ctx = canvas.getContext("2d");
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+let rainDrops = [];
+
+for(let i = 0; i < 500; i++){
+    rainDrops[i] = {
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        length: Math.random() * 20,
+        speed: Math.random() * 4 + 4
+    };
+}
+
+function drawRain(){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    ctx.strokeStyle = "rgba(0, 180, 255, 0.6)";
+    ctx.lineWidth = 1;
+    ctx.lineCap = "round";
+
+    for(let i = 0; i < rainDrops.length; i++){
+        let drop = rainDrops[i];
+        ctx.beginPath();
+        ctx.moveTo(drop.x, drop.y);
+        ctx.lineTo(drop.x, drop.y + drop.length);
+        ctx.stroke();
+
+        drop.y += drop.speed;
+
+        if(drop.y > canvas.height){
+            drop.y = -20;
+            drop.x = Math.random() * canvas.width;
+        }
+    }
+}
+
+function animate(){
+    drawRain();
+    requestAnimationFrame(animate);
+}
+
+animate();
+
+window.addEventListener("resize", () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
+</script>
+
+</body>
 </html>
+
